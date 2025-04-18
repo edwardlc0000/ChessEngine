@@ -1,5 +1,6 @@
 #include "Piece.hpp"
 #include <string>
+#include <cctype>
 
 Piece::Piece(Color c, PieceType t)
 {
@@ -10,32 +11,17 @@ Piece::Piece(Color c, PieceType t)
 std::ostream& operator<<(std::ostream& os, const Piece& piece)
 {
 	std::string piece_str;
-	if (piece.color == WHITE)
+	switch (piece.type)
 	{
-		switch (piece.type)
-		{
-			case PAWN: piece_str = "P"; break;
-			case KNIGHT: piece_str = "N"; break;
-			case BISHOP: piece_str = "B"; break;
-			case ROOK: piece_str = "R"; break;
-			case QUEEN: piece_str = "Q"; break;
-			case KING: piece_str = "K"; break;
-			default: piece_str = ""; break;
-		}
-	}
-	else
-	{
-		switch (piece.type)
-		{
-		case PAWN: piece_str = "p"; break;
-		case KNIGHT: piece_str = "n"; break;
-		case BISHOP: piece_str = "b"; break;
-		case ROOK: piece_str = "r"; break;
-		case QUEEN: piece_str = "q"; break;
-		case KING: piece_str = "k"; break;
+		case PAWN: piece_str = "P"; break;
+		case KNIGHT: piece_str = "N"; break;
+		case BISHOP: piece_str = "B"; break;
+		case ROOK: piece_str = "R"; break;
+		case QUEEN: piece_str = "Q"; break;
+		case KING: piece_str = "K"; break;
 		default: piece_str = ""; break;
-		}
 	}
+	if (piece.color == BLACK) piece_str = std::tolower(piece_str[0]);
 	os << piece_str;
 	return os;
 }
