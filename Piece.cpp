@@ -1,11 +1,10 @@
 #include "Piece.hpp"
-#include <string>
-#include <cctype>
 
 Piece::Piece(Color c, PieceType t)
 {
 	color = c;
 	type = t;
+	bitboard = Bitboard(c, t);
 }
 
 std::ostream& operator<<(std::ostream& os, const Piece& piece)
