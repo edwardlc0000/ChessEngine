@@ -7,6 +7,9 @@
 #include "Bitboard.hpp"
 #include <array>
 #include <string>
+#include <iostream>
+#include <sstream>
+#include <stdexcept>
 
 class ChessBoard
 {
@@ -51,6 +54,15 @@ public:
 	 * @details This function parses the FEN string and sets up the board accordingly.
 	 */
 	void init_fen_board(const std::string& fen);
+
+	/*
+	 * @brief Outputs the chessboard to an output stream.
+	 * 
+	 * @param os The output stream to write to.
+	 * @param board The chessboard to output.
+	 * @details This functions overloads the << operator to output the chessboard as a FEN string.
+	 */
+	friend std::ostream& operator<<(std::ostream& os, const ChessBoard& board);
 };
 
 #endif // CHESSBOARD_HPP
