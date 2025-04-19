@@ -128,7 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bitboard.cpp" />
-    <ClCompile Include="ChessBoardcpp.cpp" />
+    <ClCompile Include="ChessBoard.cpp" />
     <ClCompile Include="ChessEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
