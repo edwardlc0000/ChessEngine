@@ -51,20 +51,20 @@ void ChessBoard::init_fen_board(const std::string& fen)
 	fen_stream >> fullmove_number_str;
 
 	// Initialize the bitboards for each piece type
-	bitboards[WHITE_PAWN] = Bitboard(WHITE, PAWN);
-	bitboards[WHITE_KNIGHT] = Bitboard(WHITE, KNIGHT);
-	bitboards[WHITE_PAWN] = Bitboard(WHITE, PAWN);
-	bitboards[WHITE_KNIGHT] = Bitboard(WHITE, KNIGHT);
-	bitboards[WHITE_BISHOP] = Bitboard(WHITE, BISHOP);
-	bitboards[WHITE_ROOK] = Bitboard(WHITE, ROOK);
-	bitboards[WHITE_QUEEN] = Bitboard(WHITE, QUEEN);
-	bitboards[WHITE_KING] = Bitboard(WHITE, KING);
-	bitboards[BLACK_PAWN] = Bitboard(BLACK, PAWN);
-	bitboards[BLACK_KNIGHT] = Bitboard(BLACK, KNIGHT);
-	bitboards[BLACK_BISHOP] = Bitboard(BLACK, BISHOP);
-	bitboards[BLACK_ROOK] = Bitboard(BLACK, ROOK);
-	bitboards[BLACK_QUEEN] = Bitboard(BLACK, QUEEN);
-	bitboards[BLACK_KING] = Bitboard(BLACK, KING);
+	bitboards[WHITE_PAWN] = Bitboard();
+	bitboards[WHITE_KNIGHT] = Bitboard();
+	bitboards[WHITE_PAWN] = Bitboard();
+	bitboards[WHITE_KNIGHT] = Bitboard();
+	bitboards[WHITE_BISHOP] = Bitboard();
+	bitboards[WHITE_ROOK] = Bitboard();
+	bitboards[WHITE_QUEEN] = Bitboard();
+	bitboards[WHITE_KING] = Bitboard();
+	bitboards[BLACK_PAWN] = Bitboard();
+	bitboards[BLACK_KNIGHT] = Bitboard();
+	bitboards[BLACK_BISHOP] = Bitboard();
+	bitboards[BLACK_ROOK] = Bitboard();
+	bitboards[BLACK_QUEEN] = Bitboard();
+	bitboards[BLACK_KING] = Bitboard();
 
 	// Set the state of the board from the FEN string
 	active_color = (active_color_str == "w") ? WHITE : BLACK;

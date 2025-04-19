@@ -13,7 +13,8 @@
 
 class ChessBoard
 {
-private:
+public:
+	// Current state of the board
 	Color active_color;
 	bool white_kingside_castle;
 	bool white_queenside_castle;
@@ -22,7 +23,8 @@ private:
 	std::string en_passant_target_square;
 	int halfmove_clock;
 	int fullmove_number;
-public:
+
+	// Bitboards for each piece type
 	std::array<Bitboard, 12> bitboards; // 0-5 for white, 6-11 for black
 
 	/**
