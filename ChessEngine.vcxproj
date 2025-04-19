@@ -128,13 +128,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bitboard.cpp" />
+    <ClCompile Include="ChessBoardcpp.cpp" />
     <ClCompile Include="ChessEngine.cpp" />
-    <ClCompile Include="Piece.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bitboard.hpp" />
+    <ClInclude Include="ChessBoard.hpp" />
     <ClInclude Include="ChessTypes.hpp" />
-    <ClInclude Include="Piece.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
