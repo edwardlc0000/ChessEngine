@@ -127,10 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bitboard.cpp" />
     <ClCompile Include="ChessEngine.cpp" />
     <ClCompile Include="Piece.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bitboard.hpp" />
     <ClInclude Include="ChessTypes.hpp" />
     <ClInclude Include="Piece.hpp" />
   </ItemGroup>
