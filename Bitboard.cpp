@@ -20,15 +20,14 @@ Bitboard::Bitboard(Color c, PieceType t)
 	board = 0;
 	switch (t)
 	{
-		case PAWN: board = 0x00FF000000000000; break;
-		case KNIGHT: board = 0x0000000000000042; break;
-		case BISHOP: board = 0x0000000000000024; break;
-		case ROOK: board = 0x0000000000000081; break;
-		case QUEEN: board = 0x0000000000000008; break;
-		case KING: board = 0x0000000000000010; break;
+		case PAWN:    board = (c == WHITE) ? 0x000000000000FF00 : 0x00FF000000000000; break;
+		case KNIGHT:  board = (c == WHITE) ? 0x0000000000000042 : 0x4200000000000000; break;
+		case BISHOP:  board = (c == WHITE) ? 0x0000000000000024 : 0x2400000000000000; break;
+		case ROOK:    board = (c == WHITE) ? 0x0000000000000081 : 0x8100000000000000; break;
+		case QUEEN:   board = (c == WHITE) ? 0x0000000000000008 : 0x0800000000000000; break;
+		case KING:    board = (c == WHITE) ? 0x0000000000000010 : 0x1000000000000000; break;
 		default: break;
 	}
-	if (c == BLACK) board <<= 48;
 }
 
 void Bitboard::set_bit(int index)
