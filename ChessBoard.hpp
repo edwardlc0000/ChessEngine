@@ -25,7 +25,7 @@ public:
 	int fullmove_number;
 
 	// Bitboards for each piece type
-	std::array<Bitboard, 12> bitboards; // 0-5 for white, 6-11 for black
+	std::array<Bitboard, 16> bitboards; // 0-5 for white, 6-11 for black, 12 for all white pieces, 13 for all black pieces, 14 for all pieces, 15 for empty
 
 	/**
 	 * @brief Default constructor for ChessBoard.

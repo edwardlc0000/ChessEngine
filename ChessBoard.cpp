@@ -26,6 +26,14 @@ void ChessBoard::init_board()
 	bitboards[BLACK_QUEEN] = Bitboard(BLACK, QUEEN);
 	bitboards[BLACK_KING] = Bitboard(BLACK, KING);
 
+	// Set the bitboards for all pieces
+	bitboards[WHITE_PIECES] = bitboards[WHITE_PAWN] | bitboards[WHITE_KNIGHT] | bitboards[WHITE_BISHOP] |
+		bitboards[WHITE_ROOK] | bitboards[WHITE_QUEEN] | bitboards[WHITE_KING];
+	bitboards[BLACK_PIECES] = bitboards[BLACK_PAWN] | bitboards[BLACK_KNIGHT] | bitboards[BLACK_BISHOP] |
+		bitboards[BLACK_ROOK] | bitboards[BLACK_QUEEN] | bitboards[BLACK_KING];
+	bitboards[ALL_PIECES] = bitboards[WHITE_PIECES] | bitboards[BLACK_PIECES];
+	bitboards[EMPTY] = ~bitboards[ALL_PIECES];
+
 	// Set the state of the initial position
 	active_color = WHITE;
 	white_kingside_castle = true;
@@ -101,6 +109,14 @@ void ChessBoard::init_fen_board(const std::string& fen)
 			}
 		}
 	}
+
+	// Set the bitboards for all pieces
+	bitboards[WHITE_PIECES] = bitboards[WHITE_PAWN] | bitboards[WHITE_KNIGHT] | bitboards[WHITE_BISHOP] |
+		bitboards[WHITE_ROOK] | bitboards[WHITE_QUEEN] | bitboards[WHITE_KING];
+	bitboards[BLACK_PIECES] = bitboards[BLACK_PAWN] | bitboards[BLACK_KNIGHT] | bitboards[BLACK_BISHOP] |
+		bitboards[BLACK_ROOK] | bitboards[BLACK_QUEEN] | bitboards[BLACK_KING];
+	bitboards[ALL_PIECES] = bitboards[WHITE_PIECES] | bitboards[BLACK_PIECES];
+	bitboards[EMPTY] = ~bitboards[ALL_PIECES];
 }
 
 std::ostream& operator<<(std::ostream& os, const ChessBoard& board)
