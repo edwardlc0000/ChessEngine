@@ -20,7 +20,8 @@ public:
 	bool white_queenside_castle;
 	bool black_kingside_castle;
 	bool black_queenside_castle;
-	std::string en_passant_target_square;
+	std::string en_passant_target_string;
+	int en_passant_target_index;
 	int halfmove_clock;
 	int fullmove_number;
 

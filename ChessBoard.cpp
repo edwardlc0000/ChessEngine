@@ -40,7 +40,7 @@ void ChessBoard::init_board()
 	white_queenside_castle = true;
 	black_kingside_castle = true;
 	black_queenside_castle = true;
-	en_passant_target_square = "";
+	en_passant_target_string = "";
 	halfmove_clock = 0;
 	fullmove_number = 1;
 }
@@ -80,7 +80,7 @@ void ChessBoard::init_fen_board(const std::string& fen)
 	white_queenside_castle = (castling_availability.find('Q') != std::string::npos);
 	black_kingside_castle = (castling_availability.find('k') != std::string::npos);
 	black_queenside_castle = (castling_availability.find('q') != std::string::npos);
-	en_passant_target_square = en_passant_target_square_str;
+	en_passant_target_string = en_passant_target_square_str;
 	halfmove_clock = halfmove_clock_str;
 	fullmove_number = fullmove_number_str;
 
@@ -192,13 +192,13 @@ std::ostream& operator<<(std::ostream& os, const ChessBoard& board)
 		os << " " << castling_availability.str();
 	}
 
-	if (board.en_passant_target_square.empty())
+	if (board.en_passant_target_string.empty())
 	{
 		os << " -";
 	}
 	else
 	{
-		os << " " << board.en_passant_target_square;
+		os << " " << board.en_passant_target_string;
 	}
 
 	os << " " << board.halfmove_clock << " " << board.fullmove_number;
