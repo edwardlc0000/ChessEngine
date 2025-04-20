@@ -58,4 +58,13 @@ const U64 RANK_6 = RANK_5 << 8;
 const U64 RANK_7 = RANK_6 << 8;
 const U64 RANK_8 = RANK_7 << 8;
 
+const int NORTH = 8;
+const int NORTH_EAST = 9;
+const int EAST = 1;
+const int SOUTH_EAST = -7;
+const int SOUTH = -8;
+const int SOUTH_WEST = -9;
+const int WEST = -1;
+const int NORTH_WEST = 7;
+
 #endif // CHESSTYPES_HPP
