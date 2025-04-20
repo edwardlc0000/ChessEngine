@@ -21,7 +21,8 @@ enum PieceType
 	BISHOP,
 	ROOK,
 	QUEEN,
-	KING
+	KING,
+	NONE
 };
 
 enum Piece
