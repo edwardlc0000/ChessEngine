@@ -76,3 +76,23 @@ int Bitboard::pop_LSB()
 	board &= (board - 1);
 	return lsb_index;
 }
+
+Bitboard Bitboard::operator~() const
+{
+	return Bitboard(~board);
+}
+
+Bitboard Bitboard::operator&(const Bitboard& other) const
+{
+	return Bitboard(board & other.board);
+}
+
+Bitboard Bitboard::operator|(const Bitboard& other) const
+{
+	return Bitboard(board | other.board);
+}
+
+Bitboard Bitboard::operator^(const Bitboard& other) const
+{
+	return Bitboard(board ^ other.board);
+}

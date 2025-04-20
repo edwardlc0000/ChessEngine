@@ -5,13 +5,14 @@
 
 #include "ChessTypes.hpp"
 #include <iostream>
+#include <bitset>
 #include <stdexcept>
 
 class Bitboard
-{
-private:
-	U64 board;
+{	
 public:
+	U64 board;
+
 	/**
 	 * @brief Default constructor for Bitboard.
 	 * 
@@ -69,7 +70,7 @@ public:
 	 */
 	int get_bit(int index) const;
 
-	/*
+	/**
 	 * @brief Gets the index of the least significant bit (LSB) that is set to 1.
 	 * 
 	 * @return The index of the LSB (0-63).
@@ -77,13 +78,42 @@ public:
 	 */
 	int get_LSB() const;
 
-	/*
+	/**
 	 * @brief Pops the least significant bit (LSB) from the bitboard.
 	 * 
 	 * @return The index of the LSB (0-63).
 	 * @throws std::runtime_error if the bitboard is empty (all bits are 0).
 	 */
 	int pop_LSB();
+
+	/**
+	 * @brief Bitwise NOT operation on the bitboard.
+	 */
+	Bitboard operator~() const;
+
+	/**
+	 * @brief Bitwise AND operation between two bitboards.
+	 * 
+	 * @param other The other bitboard to AND with.
+	 * @return A new Bitboard that is the result of the AND operation.
+	 */
+	Bitboard operator&(const Bitboard& other) const;
+
+	/**
+	 * @brief Bitwise OR operation between two bitboards.
+	 * 
+	 * @param other The other bitboard to OR with.
+	 * @return A new Bitboard that is the result of the OR operation.
+	 */
+	Bitboard operator|(const Bitboard& other) const;
+
+	/**
+	 * @brief Bitwise XOR operation between two bitboards.
+	 *
+	 * @param other The other bitboard to XOR with.
+	 * @return A new Bitboard that is the result of the XOR operation.
+	 */
+	Bitboard operator^(const Bitboard& other) const;
 };
 
 #endif // !BITBOARD_HPP
