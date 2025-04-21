@@ -97,7 +97,7 @@ void MoveGenerator::generate_pawn_moves(const ChessBoard& board)
 		// En passant
 		if (board.en_passant_target_index == capture_west || board.en_passant_target_index == capture_east)
 		{
-			Move en_passant_move = { piece, from, board.en_passant_target_index, NONE, true, true, false, false };
+			Move en_passant_move = { piece, from, board.en_passant_target_index, NONE, false, true, false, false };
 			all_moves.push_back(en_passant_move);
 		}
 	}
@@ -159,4 +159,5 @@ void MoveGenerator::generate_king_moves(const ChessBoard& board)
 {
 	Bitboard king = board.bitboards[board.active_color == WHITE ? WHITE_KING : BLACK_KING];
 	Bitboard hostile_pieces = board.bitboards[board.active_color == WHITE ? BLACK_PIECES : WHITE_PIECES];
+	Piece piece = board.active_color == WHITE ? WHITE_KING : BLACK_KING;
 }
