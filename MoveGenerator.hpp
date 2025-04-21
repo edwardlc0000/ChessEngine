@@ -10,6 +10,7 @@
 
 struct Move
 {
+	Piece piece;
 	int from;
 	int to;
 	PieceType promotion;
