@@ -26,8 +26,17 @@ public:
 	int halfmove_clock;
 	int fullmove_number;
 
-	// Bitboards for each piece type
-	std::array<Bitboard, 16> bitboards; // 0-5 for white, 6-11 for black, 12 for all white pieces, 13 for all black pieces, 14 for all pieces, 15 for empty
+	/**
+	 * Bitboards for each piece type
+	 * 
+	 * 0-5: White pieces
+	 * 6-11: Black pieces
+	 * 12: All white pieces
+	 * 13: All black pieces
+	 * 14: All pieces
+	 * 15: Empty squares
+	 */
+	std::array<Bitboard, 16> bitboards;
 
 	/**
 	 * @brief Default constructor for ChessBoard.
