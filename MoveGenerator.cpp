@@ -160,4 +160,33 @@ void MoveGenerator::generate_king_moves(const ChessBoard& board)
 	Bitboard king = board.bitboards[board.active_color == WHITE ? WHITE_KING : BLACK_KING];
 	Bitboard hostile_pieces = board.bitboards[board.active_color == WHITE ? BLACK_PIECES : WHITE_PIECES];
 	Piece piece = board.active_color == WHITE ? WHITE_KING : BLACK_KING;
+
+	while (king.board)
+	{
+		int from = king.get_LSB();
+		king.pop_LSB();
+		for (int i = 0; i < 8; i++)
+		{
+			int to = from + KING_MOVES[i];
+			if (to >= 0 && to < 64)
+			{
+				// Ensure to does not wrap around the edges
+				int from_file = from % 8;
+				int to_file = to % 8;
+				if (abs(from_file - to_file) > 1) continue;
+				if (board.bitboards[EMPTY].get_bit(to))
+				{
+					// Normal move
+					Move move = { piece, from, to, NONE, false, false, false, false };
+					all_moves.push_back(move);
+				}
+				else if (hostile_pieces.get_bit(to))
+				{
+					// Capture move
+					Move capture_move = { piece, from, to, NONE, true, false, false, false };
+					all_moves.push_back(capture_move);
+				}
+			}
+		}
+	}
 }

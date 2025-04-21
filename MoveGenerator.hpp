@@ -22,6 +22,7 @@ struct Move
 };
 
 const std::array<int, 8> KNIGHT_MOVES = { 15, 17, -15, -17, 10, -10, 6, -6 };
+const std::array<int, 8> KING_MOVES = { 1, -1, 8, -8, 9, -9, 7, -7 };
 
 class MoveGenerator
 {
