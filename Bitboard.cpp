@@ -63,7 +63,14 @@ int Bitboard::get_LSB() const
 	{
 		throw std::runtime_error("Bitboard is uninitialized or empty.");
 	}
-	return __builtin_ctzll(board);
+
+	#ifdef _MSC_VER
+		unsigned long index;
+		_BitScanForward64(&index, board);
+		return static_cast<int>(index);
+	#else
+		return __builtin_ctzll(board);
+	#endif
 }
 
 int Bitboard::pop_LSB()

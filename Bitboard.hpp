@@ -7,6 +7,7 @@
 #include <iostream>
 #include <bitset>
 #include <stdexcept>
+#include <intrin.h> // For _BitScanForward64
 
 class Bitboard
 {	
