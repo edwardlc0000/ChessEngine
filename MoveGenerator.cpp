@@ -33,6 +33,7 @@ void MoveGenerator::generate_tactical_moves(const ChessBoard& board)
 void MoveGenerator::generate_pawn_moves(const ChessBoard& board)
 {
 	Bitboard pawns = board.bitboards[board.active_color == WHITE ? WHITE_PAWN : BLACK_PAWN];
+	Bitboard hostile_pieces = board.bitboards[board.active_color == WHITE ? BLACK_PIECES : WHITE_PIECES];
 	Piece piece = board.active_color == WHITE ? WHITE_PAWN : BLACK_PAWN;
 
 	while (pawns.board)
@@ -78,8 +79,6 @@ void MoveGenerator::generate_pawn_moves(const ChessBoard& board)
 		// Capture moves
 		int capture_west = board.active_color == WHITE ? from + NORTH_WEST : from + SOUTH_WEST;
 		int capture_east = board.active_color == WHITE ? from + NORTH_EAST : from + SOUTH_EAST;
-
-		Bitboard hostile_pieces = board.bitboards[board.active_color == WHITE ? BLACK_PIECES : WHITE_PIECES];
 
 		// Ensure capture_west does not wrap around the west edge
 		if (from % 8 != 0 && hostile_pieces.get_bit(capture_west)) // Not on File A
@@ -159,4 +158,5 @@ void MoveGenerator::generate_queen_moves(const ChessBoard& board)
 void MoveGenerator::generate_king_moves(const ChessBoard& board)
 {
 	Bitboard king = board.bitboards[board.active_color == WHITE ? WHITE_KING : BLACK_KING];
+	Bitboard hostile_pieces = board.bitboards[board.active_color == WHITE ? BLACK_PIECES : WHITE_PIECES];
 }
