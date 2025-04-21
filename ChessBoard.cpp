@@ -119,6 +119,101 @@ void ChessBoard::init_fen_board(const std::string& fen)
 	bitboards[EMPTY] = ~bitboards[ALL_PIECES];
 }
 
+void ChessBoard::apply_move(const Move& move)
+{
+	// Update the bitboards based on the move
+	bitboards[move.piece].clear_bit(move.from);
+	bitboards[move.piece].set_bit(move.to);
+
+	// Update the bitboards for all pieces
+	bitboards[active_color == WHITE ? WHITE_PIECES : BLACK_PIECES].clear_bit(move.from);
+	bitboards[active_color == WHITE ? WHITE_PIECES : BLACK_PIECES].set_bit(move.to);
+	bitboards[ALL_PIECES].clear_bit(move.from);
+	bitboards[ALL_PIECES].set_bit(move.to);
+
+	// Update the castling rights
+	if (move.piece == (active_color == WHITE ? WHITE_KING : BLACK_KING))
+	{
+		if (active_color == WHITE)
+		{
+			white_kingside_castle = false;
+			white_queenside_castle = false;
+		}
+		else
+		{
+			black_kingside_castle = false;
+			black_queenside_castle = false;
+		}
+	}
+	else if (move.piece == (active_color == WHITE ? WHITE_ROOK : BLACK_ROOK))
+	{
+		if (move.from == (active_color == WHITE ? 0 : 56)) // Queenside rook
+		{
+			if (active_color == WHITE)
+				white_queenside_castle = false;
+			else
+				black_queenside_castle = false;
+		}
+		else if (move.from == (active_color == WHITE ? 7 : 63)) // Kingside rook
+		{
+			if (active_color == WHITE)
+				white_kingside_castle = false;
+			else
+				black_kingside_castle = false;
+		}
+	}
+
+	// Update the en passant target square
+	en_passant_target_index = -1;
+	en_passant_target_string = "";
+
+	// Update the bitboards for non-capture moves
+	if (!move.is_capture)
+	{
+		bitboards[EMPTY].set_bit(move.from);
+		bitboards[EMPTY].clear_bit(move.to);
+
+	}
+
+	// Update the bitboards for capture moves
+	if (move.is_capture)
+	{
+		int hostile_piece = (active_color == WHITE) ? hostile_piece = 6 : hostile_piece = 0;
+		for (int i = 0; i < 6; i++)
+		{
+			if (bitboards[hostile_piece + i].get_bit(move.to))
+			{
+				bitboards[hostile_piece + i].clear_bit(move.to);
+				(active_color == WHITE) ? bitboards[BLACK_PIECES].clear_bit(move.to) : bitboards[WHITE_PIECES].clear_bit(move.to);					break;
+			}
+		}
+	}
+	if (move.is_en_passant)
+	{
+		bitboards[active_color == WHITE ? BLACK_PAWN : WHITE_PAWN].clear_bit(move.to);
+		bitboards[active_color == WHITE ? BLACK_PIECES : WHITE_PIECES].clear_bit(move.to);
+	}
+
+	// Update the halfmove clock
+	if (move.is_capture || move.piece == (active_color == WHITE ? WHITE_PAWN : BLACK_PAWN))
+	{
+		halfmove_clock = 0;
+	}
+	else
+	{
+		halfmove_clock++;
+	}
+
+	// Update the fullmove number
+	if (active_color == BLACK)
+	{
+		fullmove_number++;
+	}
+
+	// Update the active color
+	active_color = (active_color == WHITE) ? BLACK : WHITE;
+}
+
 std::ostream& operator<<(std::ostream& os, const ChessBoard& board)
 {
 	for (int rank = 7; rank >= 0; rank--)

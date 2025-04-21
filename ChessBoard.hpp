@@ -5,6 +5,7 @@
 
 #include "ChessTypes.hpp"
 #include "Bitboard.hpp"
+#include "MoveGenerator.hpp"
 #include <array>
 #include <string>
 #include <iostream>
@@ -57,6 +58,8 @@ public:
 	 * @details This function parses the FEN string and sets up the board accordingly.
 	 */
 	void init_fen_board(const std::string& fen);
+
+	void apply_move(const Move& move);
 
 	/*
 	 * @brief Outputs the chessboard to an output stream.
