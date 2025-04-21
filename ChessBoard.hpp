@@ -59,6 +59,12 @@ public:
 	 */
 	void init_fen_board(const std::string& fen);
 
+	/*
+	 * @brief Applies a move to the chessboard.
+	 *
+	 * @param move The move to apply.
+	 * @details This function updates the chessboard state based on the provided move.
+	 */
 	void apply_move(const Move& move);
 
 	/*
