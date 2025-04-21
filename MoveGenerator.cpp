@@ -51,14 +51,14 @@ void MoveGenerator::generate_pawn_moves(const ChessBoard& board)
 				// Promotion moves
 				for (int promotion = KNIGHT; promotion <= QUEEN; promotion++)
 				{
-					Move move = { piece, from, to, static_cast<PieceType>(promotion), false, false };
+					Move move = { piece, from, to, static_cast<PieceType>(promotion), false, false, false, false };
 					all_moves.push_back(move);
 				}
 			}
 			else
 			{
 				// Single push
-				Move move = { piece, from, to, NONE, false, false };
+				Move move = { piece, from, to, NONE, false, false, false, false };
 				all_moves.push_back(move);
 
 				// Double push
@@ -68,7 +68,7 @@ void MoveGenerator::generate_pawn_moves(const ChessBoard& board)
 					int double_to = board.active_color == WHITE ? to + NORTH : to + SOUTH;
 					if (board.bitboards[EMPTY].get_bit(double_to))
 					{
-						Move double_move = { piece, from, double_to, NONE, false, false };
+						Move double_move = { piece, from, double_to, NONE, false, false, false, false };
 						all_moves.push_back(double_move);
 					}
 				}
@@ -84,21 +84,21 @@ void MoveGenerator::generate_pawn_moves(const ChessBoard& board)
 		// Ensure capture_west does not wrap around the west edge
 		if (from % 8 != 0 && hostile_pieces.get_bit(capture_west)) // Not on File A
 		{
-			Move capture_move = { piece, from, capture_west, NONE, false, false, true };
+			Move capture_move = { piece, from, capture_west, NONE, true, false, false, false };
 			all_moves.push_back(capture_move);
 		}
 
 		// Ensure capture_east does not wrap around the east edge
 		if (from % 8 != 7 && hostile_pieces.get_bit(capture_east)) // Not on File H
 		{
-			Move capture_move = { piece, from, capture_east, NONE, false, false, true };
+			Move capture_move = { piece, from, capture_east, NONE, true, false, false, false };
 			all_moves.push_back(capture_move);
 		}
 
 		// En passant
 		if (board.en_passant_target_index == capture_west || board.en_passant_target_index == capture_east)
 		{
-			Move en_passant_move = { piece, from, board.en_passant_target_index, NONE, false, true };
+			Move en_passant_move = { piece, from, board.en_passant_target_index, NONE, true, true, false, false };
 			all_moves.push_back(en_passant_move);
 		}
 	}
@@ -107,6 +107,38 @@ void MoveGenerator::generate_pawn_moves(const ChessBoard& board)
 void MoveGenerator::generate_knight_moves(const ChessBoard& board)
 {
 	Bitboard knights = board.bitboards[board.active_color == WHITE ? WHITE_KNIGHT : BLACK_KNIGHT];
+	Bitboard hostile_pieces = board.bitboards[board.active_color == WHITE ? BLACK_PIECES : WHITE_PIECES];
+	Piece piece = board.active_color == WHITE ? WHITE_KNIGHT : BLACK_KNIGHT;
+
+	while (knights.board)
+	{
+		int from = knights.get_LSB();
+		knights.pop_LSB();
+		for (int i = 0; i < 8; i++)
+		{
+			int to = from + KNIGHT_MOVES[i];
+			if (to >= 0 && to < 64)
+			{
+				// Ensure to does not wrap around the edges
+				int from_file = from % 8;
+				int to_file = to % 8;
+				if (abs(from_file - to_file) > 2) continue;
+
+				if (board.bitboards[EMPTY].get_bit(to))
+				{
+					// Normal move
+					Move move = { piece, from, to, NONE, false, false, false, false };
+					all_moves.push_back(move);
+				}
+				else if (hostile_pieces.get_bit(to))
+				{
+					// Capture move
+					Move capture_move = { piece, from, to, NONE, true, false, false, false };
+					all_moves.push_back(capture_move);
+				}
+			}
+		}
+	}
 }
 
 void MoveGenerator::generate_bishop_moves(const ChessBoard& board)

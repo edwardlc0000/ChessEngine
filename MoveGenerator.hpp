@@ -6,6 +6,7 @@
 #include "ChessTypes.hpp"
 #include "ChessBoard.hpp"
 #include <vector>
+#include <array>
 #include <string>
 
 struct Move
@@ -14,11 +15,13 @@ struct Move
 	int from;
 	int to;
 	PieceType promotion;
-	bool is_castling;
-	bool is_en_passant;
 	bool is_capture;
+	bool is_en_passant;
+	bool is_castling;	
 	bool is_check;
 };
+
+const std::array<int, 8> KNIGHT_MOVES = { 15, 17, -15, -17, 10, -10, 6, -6 };
 
 class MoveGenerator
 {
