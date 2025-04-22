@@ -25,6 +25,16 @@ enum PieceType
 	NONE
 };
 
+enum PieceValue
+{
+	PAWN_VALUE = 100,
+	KNIGHT_VALUE = 300,
+	BISHOP_VALUE = 300,
+	ROOK_VALUE = 500,
+	QUEEN_VALUE = 900,
+	KING_VALUE = 0
+};
+
 enum Piece
 {
 	WHITE_PAWN = WHITE + PAWN,
