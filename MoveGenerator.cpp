@@ -153,15 +153,17 @@ void MoveGenerator::generate_bishop_moves(const ChessBoard& board)
 		for (int i = 0; i < 4; i++)
 		{
 			int to = from;
+			int from_rank = from / 8;
+			int from_file = from % 8;
 			while (true)
 			{
 				to += BISHOP_MOVES[i];
 				// Ensure to is within bounds
 				if (to < 0 || to >= 64) break;
 				// Ensure to does not wrap around the edges
-				int from_file = from % 8;
+				int to_rank = to / 8;
 				int to_file = to % 8;
-				if (abs(from_file - to_file) > 7) break;
+				if (abs(from_file - to_file) > 1 && abs(from_rank - to_rank) > 1) break;
 				if (board.bitboards[EMPTY].get_bit(to))
 				{
 					// Normal move
