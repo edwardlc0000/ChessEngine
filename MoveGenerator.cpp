@@ -156,6 +156,7 @@ void MoveGenerator::generate_bishop_moves(const ChessBoard& board)
 			while (true)
 			{
 				to += BISHOP_MOVES[i];
+				// Ensure to is within bounds
 				if (to < 0 || to >= 64) break;
 				// Ensure to does not wrap around the edges
 				int from_file = from % 8;
