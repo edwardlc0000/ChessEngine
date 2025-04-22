@@ -112,6 +112,7 @@ void MoveGenerator::generate_knight_moves(const ChessBoard& board)
 	while (knights.board)
 	{
 		int from = knights.get_LSB();
+		int from_file = from % 8;
 		knights.pop_LSB();
 		for (int i = 0; i < 8; i++)
 		{
@@ -119,7 +120,6 @@ void MoveGenerator::generate_knight_moves(const ChessBoard& board)
 			// Ensure to is within bounds
 			if (to < 0 || to >= 64) continue;
 			// Ensure to does not wrap around the edges
-			int from_file = from % 8;
 			int to_file = to % 8;
 			if (abs(from_file - to_file) > 2) continue;
 
@@ -240,6 +240,7 @@ void MoveGenerator::generate_king_moves(const ChessBoard& board)
 	while (king.board)
 	{
 		int from = king.get_LSB();
+		int from_file = from % 8;
 		king.pop_LSB();
 		for (int i = 0; i < 8; i++)
 		{
@@ -247,7 +248,6 @@ void MoveGenerator::generate_king_moves(const ChessBoard& board)
 			// Ensure to is within bounds
 			if (to < 0 || to >= 64) continue;
 			// Ensure to does not wrap around the edges
-			int from_file = from % 8;
 			int to_file = to % 8;
 			if (abs(from_file - to_file) > 1) continue;
 			if (board.bitboards[EMPTY].get_bit(to))
