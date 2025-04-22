@@ -203,9 +203,7 @@ void MoveGenerator::generate_rook_moves(const ChessBoard& board)
 				// Ensure to is within bounds
 				if (to < 0 || to >= 64) break;
 				// Ensure to does not wrap around the edges
-				int from_file = from % 8;
-				int to_file = to % 8;
-				if (abs(from_file - to_file) > 7) break;
+				if (from / 8 != to / 8) break;
 				if (board.bitboards[EMPTY].get_bit(to))
 				{
 					// Normal move
