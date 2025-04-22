@@ -116,13 +116,51 @@ void MoveGenerator::generate_knight_moves(const ChessBoard& board)
 		for (int i = 0; i < 8; i++)
 		{
 			int to = from + KNIGHT_MOVES[i];
-			if (to >= 0 && to < 64)
+			// Ensure to is within bounds
+			if (to < 0 || to >= 64) continue;
+			// Ensure to does not wrap around the edges
+			int from_file = from % 8;
+			int to_file = to % 8;
+			if (abs(from_file - to_file) > 2) continue;
+
+			if (board.bitboards[EMPTY].get_bit(to))
 			{
+				// Normal move
+				Move move = { piece, from, to, NONE, false, false, false, false };
+				all_moves.push_back(move);
+			}
+			else if (hostile_pieces.get_bit(to))
+			{
+				// Capture move
+				Move capture_move = { piece, from, to, NONE, true, false, false, false };
+				all_moves.push_back(capture_move);
+			}
+			
+		}
+	}
+}
+
+void MoveGenerator::generate_bishop_moves(const ChessBoard& board)
+{
+	Bitboard bishops = board.bitboards[board.active_color == WHITE ? WHITE_BISHOP : BLACK_BISHOP];
+	Bitboard hostile_pieces = board.bitboards[board.active_color == WHITE ? BLACK_PIECES : WHITE_PIECES];
+	Piece piece = board.active_color == WHITE ? WHITE_BISHOP : BLACK_BISHOP;
+
+	while (bishops.board)
+	{
+		int from = bishops.get_LSB();
+		bishops.pop_LSB();
+		for (int i = 0; i < 4; i++)
+		{
+			int to = from;
+			while (true)
+			{
+				to += BISHOP_MOVES[i];
+				if (to < 0 || to >= 64) break;
 				// Ensure to does not wrap around the edges
 				int from_file = from % 8;
 				int to_file = to % 8;
-				if (abs(from_file - to_file) > 2) continue;
-
+				if (abs(from_file - to_file) > 7) break;
 				if (board.bitboards[EMPTY].get_bit(to))
 				{
 					// Normal move
@@ -134,15 +172,15 @@ void MoveGenerator::generate_knight_moves(const ChessBoard& board)
 					// Capture move
 					Move capture_move = { piece, from, to, NONE, true, false, false, false };
 					all_moves.push_back(capture_move);
+					break; // Stop after capturing
+				}
+				else
+				{
+					break; // Blocked by friendly piece
 				}
 			}
 		}
 	}
-}
-
-void MoveGenerator::generate_bishop_moves(const ChessBoard& board)
-{
-	Bitboard bishops = board.bitboards[board.active_color == WHITE ? WHITE_BISHOP : BLACK_BISHOP];
 }
 
 void MoveGenerator::generate_rook_moves(const ChessBoard& board)
@@ -168,24 +206,23 @@ void MoveGenerator::generate_king_moves(const ChessBoard& board)
 		for (int i = 0; i < 8; i++)
 		{
 			int to = from + KING_MOVES[i];
-			if (to >= 0 && to < 64)
+			// Ensure to is within bounds
+			if (to < 0 || to >= 64) continue;
+			// Ensure to does not wrap around the edges
+			int from_file = from % 8;
+			int to_file = to % 8;
+			if (abs(from_file - to_file) > 1) continue;
+			if (board.bitboards[EMPTY].get_bit(to))
 			{
-				// Ensure to does not wrap around the edges
-				int from_file = from % 8;
-				int to_file = to % 8;
-				if (abs(from_file - to_file) > 1) continue;
-				if (board.bitboards[EMPTY].get_bit(to))
-				{
-					// Normal move
-					Move move = { piece, from, to, NONE, false, false, false, false };
-					all_moves.push_back(move);
-				}
-				else if (hostile_pieces.get_bit(to))
-				{
-					// Capture move
-					Move capture_move = { piece, from, to, NONE, true, false, false, false };
-					all_moves.push_back(capture_move);
-				}
+				// Normal move
+				Move move = { piece, from, to, NONE, false, false, false, false };
+				all_moves.push_back(move);
+			}
+			else if (hostile_pieces.get_bit(to))
+			{
+				// Capture move
+				Move capture_move = { piece, from, to, NONE, true, false, false, false };
+				all_moves.push_back(capture_move);
 			}
 		}
 	}
