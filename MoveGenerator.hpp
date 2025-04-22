@@ -22,7 +22,10 @@ struct Move
 };
 
 const std::array<int, 8> KNIGHT_MOVES = { 15, 17, -15, -17, 10, -10, 6, -6 };
-const std::array<int, 8> KING_MOVES = { 1, -1, 8, -8, 9, -9, 7, -7 };
+const std::array<int, 8> KING_MOVES = { NORTH, SOUTH, EAST, WEST, NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST };
+const std::array<int, 4> BISHOP_MOVES = { NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST };
+const std::array<int, 4> ROOK_MOVES = { NORTH, SOUTH, EAST, WEST };
+const std::array<int, 8> QUEEN_MOVES = { NORTH, SOUTH, EAST, WEST, NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST };
 
 class MoveGenerator
 {
