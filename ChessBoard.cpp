@@ -180,26 +180,30 @@ void ChessBoard::apply_move(const Move& move)
 			if (bitboards[hostile_piece + i].get_bit(move.to))
 			{
 				bitboards[hostile_piece + i].clear_bit(move.to);
-				(active_color == WHITE) ? bitboards[BLACK_PIECES].clear_bit(move.to) : bitboards[WHITE_PIECES].clear_bit(move.to);					break;
+				(active_color == WHITE) ? bitboards[BLACK_PIECES].clear_bit(move.to) : bitboards[WHITE_PIECES].clear_bit(move.to);
+				break;
 			}
 		}
 	}
 	if (move.is_en_passant)
 	{
-		bitboards[active_color == WHITE ? BLACK_PAWN : WHITE_PAWN].clear_bit(en_passant_target_index);
-		bitboards[active_color == WHITE ? BLACK_PIECES : WHITE_PIECES].clear_bit(en_passant_target_index);
+		int captured_pawn_index = en_passant_target_index + (active_color == WHITE ? SOUTH : NORTH);
+		bitboards[active_color == WHITE ? BLACK_PAWN : WHITE_PAWN].clear_bit(captured_pawn_index);
+		bitboards[active_color == WHITE ? BLACK_PIECES : WHITE_PIECES].clear_bit(captured_pawn_index);
 	}
 
 	// Update the en passant target square
 	if (move.piece == (active_color == WHITE ? WHITE_PAWN : BLACK_PAWN) && abs(move.from - move.to) == 16)
 	{
 		en_passant_target_index = (active_color == WHITE) ? move.to - 8 : move.to + 8;
-		en_passant_target_string = std::to_string(en_passant_target_index / 8) + std::to_string(en_passant_target_index % 8);
+		int file = en_passant_target_index % 8;
+		int rank = en_passant_target_index / 8;
+		en_passant_target_string = std::string(1, 'a' + file) + std::to_string(rank + 1);
 	}
 	else
 	{
 		en_passant_target_index = -1;
-		en_passant_target_string = "";
+		en_passant_target_string = "-";
 	}
 
 	// Update the halfmove clock
