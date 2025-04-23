@@ -26,17 +26,11 @@ void ChessBoard::init_board()
 	bitboards[BLACK_QUEEN] = Bitboard(BLACK, QUEEN);
 	bitboards[BLACK_KING] = Bitboard(BLACK, KING);
 
-	// Set the bitboards for each color
+	// Set the bitboards for all pieces
 	bitboards[WHITE_PIECES] = bitboards[WHITE_PAWN] | bitboards[WHITE_KNIGHT] | bitboards[WHITE_BISHOP] |
 		bitboards[WHITE_ROOK] | bitboards[WHITE_QUEEN] | bitboards[WHITE_KING];
 	bitboards[BLACK_PIECES] = bitboards[BLACK_PAWN] | bitboards[BLACK_KNIGHT] | bitboards[BLACK_BISHOP] |
 		bitboards[BLACK_ROOK] | bitboards[BLACK_QUEEN] | bitboards[BLACK_KING];
-
-	// Set the bitboards for all attacks
-	bitboards[WHITE_ATTACKS] = WHITE_STARTING_ATTACKS;
-	bitboards[BLACK_ATTACKS] = BLACK_STARTING_ATTACKS;
-
-	// Set the bitboards for all pieces
 	bitboards[ALL_PIECES] = bitboards[WHITE_PIECES] | bitboards[BLACK_PIECES];
 	bitboards[EMPTY] = ~bitboards[ALL_PIECES];
 
@@ -116,16 +110,11 @@ void ChessBoard::init_fen_board(const std::string& fen)
 		}
 	}
 
-	// Set the bitboards for each color
+	// Set the bitboards for all pieces
 	bitboards[WHITE_PIECES] = bitboards[WHITE_PAWN] | bitboards[WHITE_KNIGHT] | bitboards[WHITE_BISHOP] |
 		bitboards[WHITE_ROOK] | bitboards[WHITE_QUEEN] | bitboards[WHITE_KING];
 	bitboards[BLACK_PIECES] = bitboards[BLACK_PAWN] | bitboards[BLACK_KNIGHT] | bitboards[BLACK_BISHOP] |
 		bitboards[BLACK_ROOK] | bitboards[BLACK_QUEEN] | bitboards[BLACK_KING];
-
-	// Set the bitboards for all attacks
-	//TODO: Implement Attack Generator
-
-	// Set the bitboards for all pieces
 	bitboards[ALL_PIECES] = bitboards[WHITE_PIECES] | bitboards[BLACK_PIECES];
 	bitboards[EMPTY] = ~bitboards[ALL_PIECES];
 }
@@ -136,11 +125,9 @@ void ChessBoard::apply_move(const Move& move)
 	bitboards[move.piece].clear_bit(move.from);
 	bitboards[move.piece].set_bit(move.to);
 
-	// Update the bitboards for each color
+	// Update the bitboards for all pieces
 	bitboards[active_color == WHITE ? WHITE_PIECES : BLACK_PIECES].clear_bit(move.from);
 	bitboards[active_color == WHITE ? WHITE_PIECES : BLACK_PIECES].set_bit(move.to);
-
-	// Update the bitboards for all pieces
 	bitboards[ALL_PIECES].clear_bit(move.from);
 	bitboards[ALL_PIECES].set_bit(move.to);
 
@@ -176,6 +163,10 @@ void ChessBoard::apply_move(const Move& move)
 		}
 	}
 
+	// Update the en passant target square
+	en_passant_target_index = -1;
+	en_passant_target_string = "";
+
 	// Update the bitboards for non-capture moves
 	if (!move.is_capture)
 	{
@@ -199,22 +190,9 @@ void ChessBoard::apply_move(const Move& move)
 	}
 	if (move.is_en_passant)
 	{
-		bitboards[active_color == WHITE ? BLACK_PAWN : WHITE_PAWN].clear_bit(en_passant_target_index);
-		bitboards[active_color == WHITE ? BLACK_PIECES : WHITE_PIECES].clear_bit(en_passant_target_index);
+		bitboards[active_color == WHITE ? BLACK_PAWN : WHITE_PAWN].clear_bit(move.to);
+		bitboards[active_color == WHITE ? BLACK_PIECES : WHITE_PIECES].clear_bit(move.to);
 	}
-
-	// Update the en passant target square
-	en_passant_target_index = -1;
-	en_passant_target_string = "";
-	if (move.piece == (active_color == WHITE ? WHITE_PAWN : BLACK_PAWN) && abs(move.to - move.from) == 16)
-	{
-		en_passant_target_index = (move.to + ((active_color == WHITE) ? -8 : 8));
-		en_passant_target_string = std::string(1, 'a' + (en_passant_target_index % 8)) + std::to_string((en_passant_target_index / 8) + 1);
-	}
-
-	// Update the attack bitboards
-	//TODO: Implement Attack Generator
-
 
 	// Update the halfmove clock
 	if (move.is_capture || move.piece == (active_color == WHITE ? WHITE_PAWN : BLACK_PAWN))

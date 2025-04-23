@@ -12,10 +12,6 @@
 #include <sstream>
 #include <stdexcept>
 
-// Precalculated bitboards for starting positions
-const Bitboard WHITE_STARTING_ATTACKS = 0x000000000000FF00;
-const Bitboard BLACK_STARTING_ATTACKS = 0x00FF000000000000;
-
 class ChessBoard
 {
 public:
