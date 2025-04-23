@@ -31,6 +31,33 @@ void MoveGenerator::generate_tactical_moves(const ChessBoard& board)
 	}
 }
 
+std::pair<Bitboard, Bitboard> MoveGenerator::generate_attacks(const ChessBoard& board)
+{
+	Bitboard white_attacks = Bitboard();
+	Bitboard black_attacks = Bitboard();
+
+	std::pair<Bitboard, Bitboard> pawns = generate_pawn_attacks(board);
+	white_attacks |= pawns.first;
+	black_attacks |= pawns.second;
+	std::pair<Bitboard, Bitboard> knights = generate_knight_attacks(board);
+	white_attacks |= knights.first;
+	black_attacks |= knights.second;
+	std::pair<Bitboard, Bitboard> bishops = generate_bishop_attacks(board);
+	white_attacks |= bishops.first;
+	black_attacks |= bishops.second;
+	std::pair<Bitboard, Bitboard> rooks = generate_rook_attacks(board);
+	white_attacks |= rooks.first;
+	black_attacks |= rooks.second;
+	std::pair<Bitboard, Bitboard> queens = generate_queen_attacks(board);
+	white_attacks |= queens.first;
+	black_attacks |= queens.second;
+	std::pair<Bitboard, Bitboard> kings = generate_king_attacks(board);
+	white_attacks |= kings.first;
+	black_attacks |= kings.second;
+
+	return { white_attacks, black_attacks };
+}
+
 void MoveGenerator::generate_pawn_moves(const ChessBoard& board)
 {
 	Bitboard pawns = board.bitboards[board.active_color == WHITE ? WHITE_PAWN : BLACK_PAWN];
@@ -308,4 +335,20 @@ void MoveGenerator::generate_king_moves(const ChessBoard& board)
 			}
 		}
 	}
+}
+
+std::pair<Bitboard, Bitboard> MoveGenerator::generate_pawn_attacks(const ChessBoard& board)
+{
+	Bitboard white_pawns = board.bitboards[WHITE_PAWN];
+	Bitboard black_pawns = board.bitboards[BLACK_PAWN];
+	Bitboard white_attacks = (white_pawns << 7) | (white_pawns << 9);
+	Bitboard black_attacks = (black_pawns >> 7) | (black_pawns >> 9);
+	return { white_attacks, black_attacks };
+}
+
+std::pair<Bitboard, Bitboard> MoveGenerator::generate_knight_attacks(const ChessBoard& board)
+{
+	Bitboard white_knights = board.bitboards[WHITE_KNIGHT];
+	Bitboard black_knights = board.bitboards[BLACK_KNIGHT];
+
 }
