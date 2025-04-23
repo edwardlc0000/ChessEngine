@@ -9,6 +9,7 @@ MoveGenerator::MoveGenerator()
 
 void MoveGenerator::generate_all_moves(const ChessBoard& board)
 {
+	all_moves.clear(); // Clear previous moves
 	generate_pawn_moves(board);
 	generate_knight_moves(board);
 	generate_bishop_moves(board);
