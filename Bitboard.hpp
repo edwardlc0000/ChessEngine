@@ -115,6 +115,32 @@ public:
 	 * @return A new Bitboard that is the result of the XOR operation.
 	 */
 	Bitboard operator^(const Bitboard& other) const;
+
+	/**
+	 * @brief
+	 */
+	Bitboard operator<<(int shift) const;
+
+	/**
+	 * @brief
+	 */
+	Bitboard operator>>(int shift) const;
+
+	/**
+	 * @brief AND Assignment operator for Bitboard.
+	 *
+	 * @param other The Bitboard to assign from.
+	 * @return A reference to this Bitboard.
+	 */
+	Bitboard operator&=(const Bitboard& other);
+
+	/**
+	 * @brief OR Assignment operator for Bitboard.
+	 *
+	 * @param other The Bitboard to assign from.
+	 * @return A reference to this Bitboard.
+	 */
+	Bitboard operator|=(const Bitboard& other);
 };
 
 #endif // !BITBOARD_HPP
