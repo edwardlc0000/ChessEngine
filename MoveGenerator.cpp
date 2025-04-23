@@ -335,26 +335,47 @@ void MoveGenerator::generate_knight_attacks(const ChessBoard& board)
 	Bitboard white_knights = board.bitboards[WHITE_KNIGHT];
 	Bitboard black_knights = board.bitboards[BLACK_KNIGHT];
 
-	for (int i = 0; i < 8; i++)
+	while (white_knights.board)
 	{
-		attacks[WHITE_KNIGHT] |= (white_knights << KNIGHT_MOVES[i]);
-		attacks[BLACK_KNIGHT] |= (black_knights >> KNIGHT_MOVES[i]);
+		int from = white_knights.get_LSB();
+		white_knights.pop_LSB();
+		for (int i = 0; i < 8; i++)
+		{
+			int to = from + KNIGHT_MOVES[i];
+			if (to < 0 || to >= 64) continue;
+			attacks[WHITE_KNIGHT] |= (white_knights << to);
+		}
+	}
+
+	while (black_knights.board)
+	{
+		int from = black_knights.get_LSB();
+		black_knights.pop_LSB();
+		for (int i = 0; i < 8; i++)
+		{
+			int to = from + KNIGHT_MOVES[i];
+			if (to < 0 || to >= 64) continue;
+			attacks[BLACK_KNIGHT] |= (black_knights << to);
+		}
 	}
 }
 
 void MoveGenerator::generate_bishop_attacks(const ChessBoard& board)
 {
-
+	Bitboard white_bishops = board.bitboards[WHITE_BISHOP];
+	Bitboard black_bishops = board.bitboards[BLACK_BISHOP];
 }
 
 void MoveGenerator::generate_rook_attacks(const ChessBoard& board)
 {
-
+	Bitboard white_rooks = board.bitboards[WHITE_ROOK];
+	Bitboard black_rooks = board.bitboards[BLACK_ROOK];
 }
 
 void MoveGenerator::generate_queen_attacks(const ChessBoard& board)
 {
-
+	Bitboard white_queens = board.bitboards[WHITE_QUEEN];
+	Bitboard black_queens = board.bitboards[BLACK_QUEEN];
 }
 
 void MoveGenerator::generate_king_attacks(const ChessBoard& board)
