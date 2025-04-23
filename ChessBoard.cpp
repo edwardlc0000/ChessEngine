@@ -163,10 +163,6 @@ void ChessBoard::apply_move(const Move& move)
 		}
 	}
 
-	// Update the en passant target square
-	en_passant_target_index = -1;
-	en_passant_target_string = "";
-
 	// Update the bitboards for non-capture moves
 	if (!move.is_capture)
 	{
@@ -190,8 +186,20 @@ void ChessBoard::apply_move(const Move& move)
 	}
 	if (move.is_en_passant)
 	{
-		bitboards[active_color == WHITE ? BLACK_PAWN : WHITE_PAWN].clear_bit(move.to);
-		bitboards[active_color == WHITE ? BLACK_PIECES : WHITE_PIECES].clear_bit(move.to);
+		bitboards[active_color == WHITE ? BLACK_PAWN : WHITE_PAWN].clear_bit(en_passant_target_index);
+		bitboards[active_color == WHITE ? BLACK_PIECES : WHITE_PIECES].clear_bit(en_passant_target_index);
+	}
+
+	// Update the en passant target square
+	if (move.piece == (active_color == WHITE ? WHITE_PAWN : BLACK_PAWN) && abs(move.from - move.to) == 16)
+	{
+		en_passant_target_index = (active_color == WHITE) ? move.to - 8 : move.to + 8;
+		en_passant_target_string = std::to_string(en_passant_target_index / 8) + std::to_string(en_passant_target_index % 8);
+	}
+	else
+	{
+		en_passant_target_index = -1;
+		en_passant_target_string = "";
 	}
 
 	// Update the halfmove clock
