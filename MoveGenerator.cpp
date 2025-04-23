@@ -33,7 +33,7 @@ void MoveGenerator::generate_tactical_moves(const ChessBoard& board)
 
 void MoveGenerator::generate_attacks(const ChessBoard& board)
 {
-	// Generate attacks for each piece type
+	attacks.fill(Bitboard(0));
 	generate_pawn_attacks(board);
 	generate_knight_attacks(board);
 	generate_bishop_attacks(board);
@@ -323,12 +323,23 @@ void MoveGenerator::generate_king_moves(const ChessBoard& board)
 
 void MoveGenerator::generate_pawn_attacks(const ChessBoard& board)
 {
+	Bitboard white_pawns = board.bitboards[WHITE_PAWN];
+	Bitboard black_pawns = board.bitboards[BLACK_PAWN];
 
+	attacks[WHITE_PAWN] = (white_pawns << 7) | (white_pawns << 9);
+	attacks[BLACK_PAWN] = (black_pawns >> 7) | (black_pawns >> 9);
 }
 
 void MoveGenerator::generate_knight_attacks(const ChessBoard& board)
 {
+	Bitboard white_knights = board.bitboards[WHITE_KNIGHT];
+	Bitboard black_knights = board.bitboards[BLACK_KNIGHT];
 
+	for (int i = 0; i < 8; i++)
+	{
+		attacks[WHITE_KNIGHT] |= (white_knights << KNIGHT_MOVES[i]);
+		attacks[BLACK_KNIGHT] |= (black_knights >> KNIGHT_MOVES[i]);
+	}
 }
 
 void MoveGenerator::generate_bishop_attacks(const ChessBoard& board)
@@ -348,5 +359,12 @@ void MoveGenerator::generate_queen_attacks(const ChessBoard& board)
 
 void MoveGenerator::generate_king_attacks(const ChessBoard& board)
 {
+	Bitboard white_king = board.bitboards[WHITE_KING];
+	Bitboard black_king = board.bitboards[BLACK_KING];
 
+	for (int i = 0; i < 8; i++)
+	{
+		attacks[WHITE_KING] |= (white_king << KING_MOVES[i]);
+		attacks[BLACK_KING] |= (black_king >> KING_MOVES[i]);
+	}
 }
