@@ -231,6 +231,47 @@ void MoveGenerator::generate_rook_moves(const ChessBoard& board)
 void MoveGenerator::generate_queen_moves(const ChessBoard& board)
 {
 	Bitboard queens = board.bitboards[board.active_color == WHITE ? WHITE_QUEEN : BLACK_QUEEN];
+	Bitboard hostile_pieces = board.bitboards[board.active_color == WHITE ? BLACK_PIECES : WHITE_PIECES];
+	Piece piece = board.active_color == WHITE ? WHITE_QUEEN : BLACK_QUEEN;
+
+	while (queens.board)
+	{
+		int from = queens.get_LSB();
+		queens.pop_LSB();
+		for (int i = 0; i < 8; i++)
+		{
+			int to = from;
+			int from_rank = to / 8;
+			int from_file = to % 8;
+			while (true)
+			{
+				to += QUEEN_MOVES[i];
+				// Ensure to is within bounds
+				if (to < 0 || to >= 64) break;
+				// Ensure to does not wrap around the edges
+				int to_rank = to / 8;
+				int to_file = to % 8;
+				if (abs(from_file - to_file) > 1 && abs(from_rank - to_rank) > 1) break;
+				if (board.bitboards[EMPTY].get_bit(to))
+				{
+					// Normal move
+					Move move = { piece, from, to, NONE, false, false, false, false };
+					all_moves.push_back(move);
+				}
+				else if (hostile_pieces.get_bit(to))
+				{
+					// Capture move
+					Move capture_move = { piece, from, to, NONE, true, false, false, false };
+					all_moves.push_back(capture_move);
+					break; // Stop after capturing
+				}
+				else
+				{
+					break; // Blocked by friendly piece
+				}
+			}
+		}
+	}
 }
 
 void MoveGenerator::generate_king_moves(const ChessBoard& board)
