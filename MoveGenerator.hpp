@@ -33,6 +33,7 @@ class MoveGenerator
 public:
 	std::vector<Move> all_moves; // List of generated moves
 	std::vector<Move> tactical_moves; // List of tactical moves
+	std::array<Bitboard, 14> attacks; // Attacks for each piece type
 
 	/**
 	 * @brief Generates all possible moves for the given chessboard.
@@ -52,9 +53,8 @@ public:
 	 * @brief Generates all possible attacks for the given chessboard.
 	 *
 	 * @param board The chessboard to generate attacks for.
-	 * @return A pair of bitboards representing the attacks for white and black pieces.
 	 */
-	 std::pair<Bitboard, Bitboard> generate_attacks(const ChessBoard& board);
+	 void generate_attacks(const ChessBoard& board);
 
 private:
 	/**
@@ -111,41 +111,41 @@ private:
 	 *
 	 * @param board The chessboard to generate pawn attacks for.
 	 */
-	std::pair<Bitboard, Bitboard> generate_pawn_attacks(const ChessBoard& board);
+	void generate_pawn_attacks(const ChessBoard& board);
 
 	/**
 	 * @brief Generates knight attacks for the given chessboard.
 	 *
 	 * @param board The chessboard to generate knight attacks for.
 	 */
-	std::pair<Bitboard, Bitboard> generate_knight_attacks(const ChessBoard& board);
+	void generate_knight_attacks(const ChessBoard& board);
 
 	/**
 	 * @brief Generates bishop attacks for the given chessboard.
 	 *
 	 * @param board The chessboard to generate bishop attacks for.
 	 */
-	std::pair<Bitboard, Bitboard> generate_bishop_attacks(const ChessBoard& board);
+	void generate_bishop_attacks(const ChessBoard& board);
 
 	/**
 	 * @brief Generates rook attacks for the given chessboard.
 	 *
 	 * @param board The chessboard to generate rook attacks for.
 	 */
-	std::pair<Bitboard, Bitboard> generate_rook_attacks(const ChessBoard& board);
+	void generate_rook_attacks(const ChessBoard& board);
 
 	/**
 	 * @brief Generates queen attacks for the given chessboard.
 	 *
 	 * @param board The chessboard to generate queen attacks for.
 	 */
-	std::pair<Bitboard, Bitboard> generate_queen_attacks(const ChessBoard& board);
+	void generate_queen_attacks(const ChessBoard& board);
 
 	/**
 	 * @brief Generates king attacks for the given chessboard.
 	 *
 	 * @param board The chessboard to generate king attacks for.
 	 */
-	std::pair<Bitboard, Bitboard> generate_king_attacks(const ChessBoard& board);
+	void generate_king_attacks(const ChessBoard& board);
 };
 #endif // MOVEGENERATOR_HPP
