@@ -33,10 +33,12 @@ public:
 	 * 6-11: Black pieces
 	 * 12: All white pieces
 	 * 13: All black pieces
-	 * 14: All pieces
-	 * 15: Empty squares
+	 * 14: All white attacks
+	 * 15: All black attacks
+	 * 16: All pieces
+	 * 17: Empty squares
 	 */
-	std::array<Bitboard, 16> bitboards;
+	std::array<Bitboard, 18> bitboards;
 
 	/**
 	 * @brief Default constructor for ChessBoard.
