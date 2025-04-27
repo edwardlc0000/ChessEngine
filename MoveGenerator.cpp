@@ -469,9 +469,29 @@ void MoveGenerator::generate_king_attacks(const ChessBoard& board)
 	Bitboard white_king = board.bitboards[WHITE_KING];
 	Bitboard black_king = board.bitboards[BLACK_KING];
 
+	int from = white_king.get_LSB();
+	int from_file = from % 8;
 	for (int i = 0; i < 8; i++)
+	{		
+		int to = from + KING_MOVES[i];
+		int to_file = to % 8;
+
+		// Ensure to is within bounds
+		if (to < 0 || to >= 64) continue;
+		// Ensure to does not wrap around the edges
+		if (abs(from_file - to_file) > 1) continue;
+	}
+
+	from = black_king.get_LSB();
+	from_file = from % 8;
+	for (int i = 0; i < 0; i++)
 	{
-		attacks[WHITE_KING] |= (white_king << KING_MOVES[i]);
-		attacks[BLACK_KING] |= (black_king >> KING_MOVES[i]);
+		int to = from + KING_MOVES[i];
+		int to_file = to % 8;
+
+		// Ensure to is within bounds
+		if (to < 0 || to >= 64) continue;
+		// Ensure to does not wrap around the edges
+		if (abs(from_file - to_file) > 1) continue;
 	}
 }
