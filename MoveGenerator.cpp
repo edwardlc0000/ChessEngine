@@ -326,8 +326,18 @@ void MoveGenerator::generate_pawn_attacks(const ChessBoard& board)
 	Bitboard white_pawns = board.bitboards[WHITE_PAWN];
 	Bitboard black_pawns = board.bitboards[BLACK_PAWN];
 
-	attacks[WHITE_PAWN] = (white_pawns << 7) | (white_pawns << 9);
-	attacks[BLACK_PAWN] = (black_pawns >> 7) | (black_pawns >> 9);
+	//Prevent wrap around for white pawns
+	Bitboard white_pawns_not_on_file_a = white_pawns & ~Bitboard(FILE_A);
+	Bitboard white_pawns_not_on_file_h = white_pawns & ~Bitboard(FILE_H);
+
+	attacks[WHITE_PAWN] = (white_pawns_not_on_file_a << 7) | (white_pawns_not_on_file_h << 9);
+
+
+	//Prevent wrap around for black pawns
+	Bitboard black_pawns_not_on_file_a = black_pawns & ~Bitboard(FILE_A);
+	Bitboard black_pawns_not_on_file_h = black_pawns & ~Bitboard(FILE_H);
+
+	attacks[BLACK_PAWN] = (black_pawns_not_on_file_h >> 7) | (black_pawns_not_on_file_a >> 9);
 }
 
 void MoveGenerator::generate_knight_attacks(const ChessBoard& board)
