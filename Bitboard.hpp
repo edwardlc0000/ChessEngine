@@ -89,6 +89,8 @@ public:
 
 	/**
 	 * @brief Bitwise NOT operation on the bitboard.
+	 * 
+	 * @return A new Bitboard that is the result of the NOT operation.
 	 */
 	Bitboard operator~() const;
 
