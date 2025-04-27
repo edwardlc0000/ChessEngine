@@ -480,6 +480,7 @@ void MoveGenerator::generate_king_attacks(const ChessBoard& board)
 		if (to < 0 || to >= 64) continue;
 		// Ensure to does not wrap around the edges
 		if (abs(from_file - to_file) > 1) continue;
+		attacks[WHITE_KING].set_bit(to);
 	}
 
 	from = black_king.get_LSB();
@@ -493,5 +494,6 @@ void MoveGenerator::generate_king_attacks(const ChessBoard& board)
 		if (to < 0 || to >= 64) continue;
 		// Ensure to does not wrap around the edges
 		if (abs(from_file - to_file) > 1) continue;
+		attacks[BLACK_KING].set_bit(to);
 	}
 }
