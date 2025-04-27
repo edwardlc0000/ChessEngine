@@ -364,6 +364,74 @@ void MoveGenerator::generate_bishop_attacks(const ChessBoard& board)
 {
 	Bitboard white_bishops = board.bitboards[WHITE_BISHOP];
 	Bitboard black_bishops = board.bitboards[BLACK_BISHOP];
+
+	while (white_bishops.board)
+	{
+		int from = white_bishops.get_LSB();
+		white_bishops.pop_LSB();
+		for (int i = 0; i < 4; i++)
+		{
+			int to = from;
+			while (true)
+			{
+				int from_rank = to / 8;
+				int from_file = to % 8;
+				to += BISHOP_MOVES[i];
+				// Ensure to is within bounds
+				if (to < 0 || to >= 64) break;
+				// Ensure to does not wrap around the edges
+				int to_rank = to / 8;
+				int to_file = to % 8;
+				if (abs(from_file - to_file) > 1 && abs(from_rank - to_rank) > 1) break;
+				if (board.bitboards[EMPTY].get_bit(to))
+				{
+					attacks[WHITE_BISHOP].set_bit(to);
+				}
+				else if (board.bitboards[BLACK_PIECES].get_bit(to))
+				{
+					attacks[WHITE_BISHOP].set_bit(to);
+				}
+				else
+				{
+					break; // Blocked by friendly piece
+				}
+			}
+		}
+	}
+
+	while (black_bishops.board)
+	{
+		int from = black_bishops.get_LSB();
+		black_bishops.pop_LSB();
+		for (int i = 0; i < 4; i++)
+		{
+			int to = from;
+			while (true)
+			{
+				int from_rank = to / 8;
+				int from_file = to % 8;
+				to += BISHOP_MOVES[i];
+				// Ensure to is within bounds
+				if (to < 0 || to >= 64) break;
+				// Ensure to does not wrap around the edges
+				int to_rank = to / 8;
+				int to_file = to % 8;
+				if (abs(from_file - to_file) > 1 && abs(from_rank - to_rank) > 1) break;
+				if (board.bitboards[EMPTY].get_bit(to))
+				{
+					attacks[BLACK_BISHOP].set_bit(to);
+				}
+				else if (board.bitboards[WHITE_PIECES].get_bit(to))
+				{
+					attacks[BLACK_BISHOP].set_bit(to);
+				}
+				else
+				{
+					break; // Blocked by friendly piece
+				}
+			}
+		}
+	}
 }
 
 void MoveGenerator::generate_rook_attacks(const ChessBoard& board)
