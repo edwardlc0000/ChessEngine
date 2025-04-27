@@ -411,6 +411,7 @@ void MoveGenerator::generate_bishop_attacks(const ChessBoard& board)
 				}
 				else
 				{
+					attacks[WHITE_BISHOP].set_bit(to);
 					break; // Blocked by friendly piece
 				}
 			}
@@ -445,6 +446,7 @@ void MoveGenerator::generate_bishop_attacks(const ChessBoard& board)
 				}
 				else
 				{
+					attacks[BLACK_BISHOP].set_bit(to);
 					break; // Blocked by friendly piece
 				}
 			}
