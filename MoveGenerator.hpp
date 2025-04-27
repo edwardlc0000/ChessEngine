@@ -34,6 +34,7 @@ public:
 	std::vector<Move> all_moves; // List of generated moves
 	std::vector<Move> tactical_moves; // List of tactical moves
 	std::array<Bitboard, 14> attacks; // Attacks for each piece type
+	std::array<Bitboard, 14> possible_attacks; //Attacks for each piece type in the next turn
 
 	/**
 	 * @brief Generates all possible moves for the given chessboard.

@@ -338,24 +338,32 @@ void MoveGenerator::generate_knight_attacks(const ChessBoard& board)
 	while (white_knights.board)
 	{
 		int from = white_knights.get_LSB();
+		int from_file = from % 8;
 		white_knights.pop_LSB();
 		for (int i = 0; i < 8; i++)
 		{
 			int to = from + KNIGHT_MOVES[i];
+			int to_file = to % 8;
 			if (to < 0 || to >= 64) continue;
-			attacks[WHITE_KNIGHT] |= (white_knights << to);
+			// Ensure to does not wrap around the edges
+			if (abs(from_file - to_file) > 2) continue;
+			attacks[WHITE_KNIGHT].set_bit(to);
 		}
 	}
 
 	while (black_knights.board)
 	{
 		int from = black_knights.get_LSB();
+		int from_file = from % 8;
 		black_knights.pop_LSB();
 		for (int i = 0; i < 8; i++)
 		{
 			int to = from + KNIGHT_MOVES[i];
+			int to_file = to % 8;
 			if (to < 0 || to >= 64) continue;
-			attacks[BLACK_KNIGHT] |= (black_knights << to);
+			// Ensure to does not wrap around the edges
+			if (abs(from_file - to_file) > 2) continue;
+			attacks[BLACK_KNIGHT].set_bit(to);
 		}
 	}
 }
