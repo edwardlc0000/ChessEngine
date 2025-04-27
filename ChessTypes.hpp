@@ -55,14 +55,14 @@ enum Piece
 	EMPTY
 };
 
-const U64 A_FILE = 0x0101010101010101;
-const U64 B_FILE = A_FILE << 1;
-const U64 C_FILE = B_FILE << 1;
-const U64 D_FILE = C_FILE << 1;
-const U64 E_FILE = D_FILE << 1;
-const U64 F_FILE = E_FILE << 1;
-const U64 G_FILE = F_FILE << 1;
-const U64 H_FILE = G_FILE << 1;
+const U64 FILE_A = 0x0101010101010101;
+const U64 FILE_B = FILE_A << 1;
+const U64 FILE_C = FILE_B << 1;
+const U64 FILE_D = FILE_C << 1;
+const U64 FILE_E = FILE_D << 1;
+const U64 FILE_F = FILE_E << 1;
+const U64 FILE_G = FILE_F << 1;
+const U64 FILE_H = FILE_G << 1;
 
 const U64 RANK_1 = 0x00000000000000FF;
 const U64 RANK_2 = RANK_1 << 8;
