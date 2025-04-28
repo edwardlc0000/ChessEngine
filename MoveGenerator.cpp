@@ -458,6 +458,38 @@ void MoveGenerator::generate_rook_attacks(const ChessBoard& board)
 {
 	Bitboard white_rooks = board.bitboards[WHITE_ROOK];
 	Bitboard black_rooks = board.bitboards[BLACK_ROOK];
+
+	while (white_rooks.board)
+	{
+
+	}
+
+	while (black_rooks.board)
+	{
+		int from = black_rooks.get_LSB();
+		black_rooks.pop_LSB();
+		for (int i = 0; i < 4; i++)
+		{
+			int to = from;
+			while (true)
+			{
+				to += ROOK_MOVES[i];
+				// Ensure to is within bounds
+				if (to < 0 || to >= 64) break;
+				// Ensure to does not wrap around the edges
+				if (from / 8 != to / 8) break;
+				if (board.bitboards[EMPTY].get_bit(to))
+				{
+					attacks[BLACK_ROOK].set_bit(to);
+				}
+				else if (board.bitboards[WHITE_PIECES].get_bit(to))
+				{
+					attacks[BLACK_ROOK].set_bit(to);
+					break; // Blocked by friendly piece
+				}
+			}
+		}
+	}
 }
 
 void MoveGenerator::generate_queen_attacks(const ChessBoard& board)
